@@ -155,20 +155,12 @@ no.onclick = () => {
 // ✅ evet
 yes.onclick = startLove;
 
-// 💖 ANA SAHNE
 function startLove(){
 
-  // 🔥 1. müzik durur
+  // ikinci müzik
   music1.pause();
-
-  // 🔥 2. müzik 1:31’den başlar (GARANTİ FIX)
-  music2.pause();
   music2.currentTime = 91;
-
-  let p = music2.play();
-  if(p !== undefined){
-    p.catch(()=>{});
-  }
+  music2.play().catch(()=>{});
 
   document.body.innerHTML = `
     <h2>Seni çok seviyorum ❤️</h2>
