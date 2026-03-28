@@ -50,7 +50,6 @@ button {
   line-height: 1.6;
 }
 
-/* 🔥 BUTON AŞAĞIDA */
 #loveBtn {
   position: fixed;
   bottom: 60px;
@@ -99,28 +98,17 @@ let music2 = document.getElementById("music2");
 let count = 0;
 let size = 18;
 
-// 🔥 iphone + garanti müzik sistemi
-let unlocked = false;
+// 🔥 İLK TIK → MÜZİK 1. SANİYE
+let firstInteraction = false;
 
-function unlockMusic(){
-  if(!unlocked){
-    unlocked = true;
+document.addEventListener("click", () => {
+  if(!firstInteraction){
+    firstInteraction = true;
 
-    music1.muted = true;
-    music1.play().then(() => {
-      music1.pause();
-      music1.currentTime = 1;
-      music1.muted = false;
-    }).catch(()=>{});
+    music1.currentTime = 1;
+    music1.play().catch(()=>{});
   }
-}
-
-// 🔥 tüm evetlerde müzik başlat
-function startMusic(){
-  unlockMusic();
-  music1.currentTime = 1;
-  music1.play().catch(()=>{});
-}
+});
 
 // ❌ mesajlar
 let messages = [
@@ -138,8 +126,6 @@ let messages = [
 
 // ❌ hayır
 no.onclick = () => {
-  unlockMusic(); // 🔥 ilk tıkta da müzik izin açılır
-
   text.innerText = messages[count] || "Artık evet de ❤️";
   count++;
 
@@ -162,18 +148,12 @@ no.onclick = () => {
       ">EVET ❤️</button>
     `;
 
-    document.getElementById("bigYes").onclick = () => {
-      startMusic(); // 🔥 burada da
-      startLove();
-    };
+    document.getElementById("bigYes").onclick = startLove;
   }
 };
 
-// ✅ küçük evet
-yes.onclick = () => {
-  startMusic(); // 🔥 garanti
-  startLove();
-};
+// ✅ evet
+yes.onclick = startLove;
 
 function startLove(){
 
