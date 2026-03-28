@@ -50,12 +50,12 @@ button {
   line-height: 1.6;
 }
 
-/* 🔥 AFFETTİM BUTONU */
+/* 🔥 BUTON AŞAĞIDA */
 #loveBtn {
   position: fixed;
-  top: 60%;
+  bottom: 60px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   font-size: 22px;
   background: red;
   color: white;
@@ -99,14 +99,27 @@ let music2 = document.getElementById("music2");
 let count = 0;
 let size = 18;
 
-// 🔥 MÜZİK KONTROL
-let musicStarted = false;
-function startMusicIfNeeded(){
-  if(!musicStarted){
-    musicStarted = true;
-    music1.currentTime = 1;
-    music1.play().catch(()=>{});
+// 🔥 iphone + garanti müzik sistemi
+let unlocked = false;
+
+function unlockMusic(){
+  if(!unlocked){
+    unlocked = true;
+
+    music1.muted = true;
+    music1.play().then(() => {
+      music1.pause();
+      music1.currentTime = 1;
+      music1.muted = false;
+    }).catch(()=>{});
   }
+}
+
+// 🔥 tüm evetlerde müzik başlat
+function startMusic(){
+  unlockMusic();
+  music1.currentTime = 1;
+  music1.play().catch(()=>{});
 }
 
 // ❌ mesajlar
@@ -125,6 +138,8 @@ let messages = [
 
 // ❌ hayır
 no.onclick = () => {
+  unlockMusic(); // 🔥 ilk tıkta da müzik izin açılır
+
   text.innerText = messages[count] || "Artık evet de ❤️";
   count++;
 
@@ -148,7 +163,7 @@ no.onclick = () => {
     `;
 
     document.getElementById("bigYes").onclick = () => {
-      startMusicIfNeeded(); // 🔥 müzik burada da
+      startMusic(); // 🔥 burada da
       startLove();
     };
   }
@@ -156,13 +171,13 @@ no.onclick = () => {
 
 // ✅ küçük evet
 yes.onclick = () => {
-  startMusicIfNeeded(); // 🔥 her evette
+  startMusic(); // 🔥 garanti
   startLove();
 };
 
 function startLove(){
 
-  // müzik değiştir
+  // ikinci müzik
   music1.pause();
   music2.currentTime = 91;
   music2.play().catch(()=>{});
@@ -175,7 +190,7 @@ function startLove(){
 
   let photos = [
     "foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg","foto5.jpg",
-    "foto6.jpg","foto7.jpg","foto8.jpg","foto9.jpg"
+    "foto6.jpg","foto7.jpg","foto8.jpg","foto9.jpg","foto10.jpg"
   ];
 
   photos.forEach((src, i) => {
