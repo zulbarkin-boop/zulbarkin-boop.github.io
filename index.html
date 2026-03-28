@@ -62,7 +62,6 @@ button {
   display: none;
 }
 
-/* VIDEO YAZISI */
 #videoText {
   position: absolute;
   top: 10px;
@@ -105,7 +104,7 @@ let music2 = document.getElementById("music2");
 let count = 0;
 let size = 18;
 
-// 🔥 FARKLI MESAJLAR
+// 🔥 farklı hayır mesajları
 let noMessages = [
   "Ama lütfen düşün 🥺",
   "Ama lüüttfeeen nolursun 😭",
@@ -119,16 +118,22 @@ let noMessages = [
   "Son kez soruyorum 😢"
 ];
 
-// ilk tıklamada müzik başlar
+// 🔥 SAYFA AÇILINCA MÜZİK (ilk dokunuşta garanti)
 document.addEventListener("click", () => {
   music1.currentTime = 1;
   music1.play().catch(()=>{});
 }, { once:true });
 
+// 🔥 EVET BASILINCA HER YERDE ÇALIŞACAK FONKSİYON
+function startFinalMusic(){
+  music1.pause();
+  music2.currentTime = 91;
+  music2.play().catch(()=>{});
+}
+
 // HAYIR
 no.onclick = () => {
   count++;
-
   text.innerText = noMessages[count-1] || "Artık evet de ❤️";
 
   size += 10;
@@ -140,20 +145,21 @@ no.onclick = () => {
 
   if(count >= 10){
     document.body.innerHTML = `<button id="bigYes" style="width:100vw;height:100vh;font-size:50px;background:green;color:white;border:none;">EVET ❤️</button>`;
-    document.getElementById("bigYes").onclick = showLove;
+
+    document.getElementById("bigYes").onclick = () => {
+      startFinalMusic();
+      showLove();
+    };
   }
 };
 
-// 🔥 EVET BASILINCA (HER TÜRLÜ)
-yes.onclick = showLove;
+// küçük evet
+yes.onclick = () => {
+  startFinalMusic();
+  showLove();
+};
 
 function showLove(){
-
-  music1.pause();
-
-  // 🔥 ARTIK HER EVETTE ÇALAR
-  music2.currentTime = 91;
-  music2.play().catch(()=>{});
 
   document.body.innerHTML = `
     <h2>Seni çok seviyorum ❤️</h2>
@@ -184,7 +190,6 @@ function showLove(){
   setTimeout(showFinalText, photos.length * 1400);
 }
 
-// YAZI
 function showFinalText(){
 
   let finalText = "Bebeğim benim biricik aşkım yaptığım şeyden dolayı özür dilerim...";
@@ -201,7 +206,6 @@ function showFinalText(){
     }
   }, 55);
 
-  // VIDEO
   document.getElementById("loveBtn").onclick = () => {
 
     music2.pause();
@@ -222,6 +226,10 @@ function showFinalText(){
   };
 }
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
