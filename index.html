@@ -50,6 +50,20 @@ button {
   line-height: 1.6;
 }
 
+/* 🔥 AFFETTİM BUTONU */
+#loveBtn {
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
+  background: red;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 15px;
+  display: none;
+}
+
 #videoText {
   position: absolute;
   top: 10px;
@@ -84,9 +98,18 @@ let music2 = document.getElementById("music2");
 
 let count = 0;
 let size = 18;
-let firstClick = false;
 
-// ❌ hayır mesajları
+// 🔥 MÜZİK KONTROL
+let musicStarted = false;
+function startMusicIfNeeded(){
+  if(!musicStarted){
+    musicStarted = true;
+    music1.currentTime = 1;
+    music1.play().catch(()=>{});
+  }
+}
+
+// ❌ mesajlar
 let messages = [
   "Lüütfeeen nolursun 😭",
   "Bir daha yapmam 😔",
@@ -99,15 +122,6 @@ let messages = [
   "Son şansım 😭",
   "Artık evet de ❤️"
 ];
-
-// 🔥 ilk tıklamada müzik başlat (iphone fix)
-document.addEventListener("click", () => {
-  if(!firstClick){
-    firstClick = true;
-    music1.currentTime = 1;
-    music1.play().catch(()=>{});
-  }
-});
 
 // ❌ hayır
 no.onclick = () => {
@@ -133,12 +147,18 @@ no.onclick = () => {
       ">EVET ❤️</button>
     `;
 
-    document.getElementById("bigYes").onclick = startLove;
+    document.getElementById("bigYes").onclick = () => {
+      startMusicIfNeeded(); // 🔥 müzik burada da
+      startLove();
+    };
   }
 };
 
-// ✅ evet
-yes.onclick = startLove;
+// ✅ küçük evet
+yes.onclick = () => {
+  startMusicIfNeeded(); // 🔥 her evette
+  startLove();
+};
 
 function startLove(){
 
@@ -150,7 +170,7 @@ function startLove(){
   document.body.innerHTML = `
     <h2>Seni çok seviyorum ❤️</h2>
     <p id="finalText"></p>
-    <button id="loveBtn" style="display:none;">❤️ Affettim</button>
+    <button id="loveBtn">❤️ Affettim</button>
   `;
 
   let photos = [
@@ -158,7 +178,6 @@ function startLove(){
     "foto6.jpg","foto7.jpg","foto8.jpg","foto9.jpg","foto10.jpg"
   ];
 
-  // 📸 foto sahnesi
   photos.forEach((src, i) => {
     setTimeout(() => {
       let img = document.createElement("img");
@@ -176,7 +195,7 @@ function startLove(){
   setTimeout(showText, photos.length * 1200);
 }
 
-// ✍️ yazı animasyonu
+// ✍️ yazı
 function showText(){
 
   let finalText = "Bebeğim benim biricik aşkım yaptığım şeyden dolayı özür dilerim, gerçekten istemeden yaptım bir daha böyle bir şey tekrarlanmayacak senden ricam gel barışalım sensizlik gözlerin kadar derin kuyularda mahsur kalmak gibi geliyor bana, sesini özledim gülüşünü özledim seni özledim aşkım gel bu özlemimize son verelim";
@@ -193,7 +212,6 @@ function showText(){
     }
   }, 50);
 
-  // ❤️ affettim
   document.getElementById("loveBtn").onclick = () => {
 
     music2.pause();
