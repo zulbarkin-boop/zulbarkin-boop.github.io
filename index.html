@@ -85,11 +85,7 @@ button {
 
 <p id="textArea"></p>
 
-<!-- 🔥 1. müzik LOOP YOK -->
-
-<audio id="music1" src="muzik.mp3"></audio>
-
-<audio id="music2" loop src="final.mp3"></audio>
+<audio id="music1" loop src="muzik.mp3"></audio> <audio id="music2" loop src="final.mp3"></audio>
 
 <script>
 let yes = document.getElementById("yesBtn");
@@ -102,28 +98,16 @@ let music2 = document.getElementById("music2");
 let count = 0;
 let size = 18;
 
-// 🔥 İLK TIK → MÜZİK 1 BAŞLAR
-let started = false;
+// 🔥 İLK TIK → MÜZİK 1. SANİYE
+let firstInteraction = false;
 
 document.addEventListener("click", () => {
-  if(!started){
-    started = true;
+  if(!firstInteraction){
+    firstInteraction = true;
+
     music1.currentTime = 1;
     music1.play().catch(()=>{});
   }
-});
-
-// 🔥 1. MÜZİK BİTİNCE → 2. MÜZİK
-music1.addEventListener("ended", () => {
-
-  music2.pause();
-  music2.currentTime = 91;
-
-  let p = music2.play();
-  if(p !== undefined){
-    p.catch(()=>{});
-  }
-
 });
 
 // ❌ mesajlar
@@ -173,6 +157,18 @@ yes.onclick = startLove;
 
 // 💖 ANA SAHNE
 function startLove(){
+
+  // 🔥 1. müzik durur
+  music1.pause();
+
+  // 🔥 2. müzik 1:31’den başlar (GARANTİ FIX)
+  music2.pause();
+  music2.currentTime = 91;
+
+  let p = music2.play();
+  if(p !== undefined){
+    p.catch(()=>{});
+  }
 
   document.body.innerHTML = `
     <h2>Seni çok seviyorum ❤️</h2>
